@@ -28,7 +28,7 @@ Siga os passos abaixo para rodar o sistema na sua máquina:
 
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/SEU_USUARIO/sistema-rosa-choque.git]
+   git clone https://github.com/SEU_USUARIO/sistema-rosa-choque.git
 
 2. Entre na pasta do projeto:
    ```bash
