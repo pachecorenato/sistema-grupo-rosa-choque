@@ -1,0 +1,29 @@
+{% extends 'atendimentos/base.html' %} {% block title %}Novo Usuário - Grupo
+Rosa Choque{% endblock %} {% block content %}
+<div class="mt-4 mb-4">
+  <a href="{% url 'gestao_equipe' %}" class="btn btn-outline-secondary mb-3"
+    >&larr; Voltar para Equipe</a
+  >
+  <h2 class="text-rosachoque">Cadastrar Nova Voluntária</h2>
+</div>
+
+<div class="card shadow-sm col-md-6 mb-5">
+  <div class="card-body p-4">
+    <form method="POST">
+      {% csrf_token %} {% for field in form %}
+      <div class="mb-3">
+        <label class="form-label fw-bold">{{ field.label }}</label>
+        {{ field }} {% if field.help_text %}
+        <small class="text-muted d-block mt-1">{{ field.help_text }}</small>
+        {% endif %} {% for error in field.errors %}
+        <div class="text-danger small mt-1">{{ error }}</div>
+        {% endfor %}
+      </div>
+      {% endfor %}
+      <button type="submit" class="btn btn-rosachoque w-100 fw-bold mt-3">
+        Criar Usuário
+      </button>
+    </form>
+  </div>
+</div>
+{% endblock %}

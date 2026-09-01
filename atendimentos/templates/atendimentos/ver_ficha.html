@@ -1,0 +1,218 @@
+{% extends 'atendimentos/base.html' %} {% block title %}Ficha de
+{{assistida.nome_completo }}{% endblock %} {% block content %}
+<div class="mt-4 mb-4 d-flex justify-content-between align-items-center">
+  <div>
+    <a
+      href="{% url 'lista_assistidas' %}"
+      class="btn btn-outline-secondary mb-3"
+      >&larr; Voltar</a
+    >
+    <h2 class="text-rosachoque">
+      Prontuário Nº {{ assistida.id }} - {{ assistida.nome_completo }}
+    </h2>
+  </div>
+  <div>
+    <a
+      href="{% url 'editar_assistida' assistida.id %}"
+      class="btn btn-outline-rosachoque"
+      >Editar Dados</a
+    >
+  </div>
+</div>
+
+<!-- DADOS IDENTIFICADORES -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-rosachoque text-white">
+    <h5 class="mb-0">DADOS IDENTIFICADORES</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-4">
+        <p><strong>Telefone/WhatsApp:</strong> {{ assistida.telefone }}</p>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <strong>Data de Nasc.:</strong>
+          {{assistida.data_nascimento|date:"d/m/Y" }}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>CPF:</strong> {{ assistida.cpf }}</p>
+      </div>
+
+      <div class="col-md-4">
+        <p>
+          <strong>Seguro receber msg?</strong>
+          {{assistida.get_seguro_receber_mensagens_display }}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>E-mail:</strong> {{ assistida.email }}</p>
+      </div>
+      <div class="col-md-4">
+        <p><strong>Melhor horário:</strong> {{ assistida.melhor_horario }}</p>
+      </div>
+      <div class="col-md-12">
+        <p>
+          <strong>Data do Cadastro:</strong>
+          {{assistida.data_cadastro|date:"d/m/Y" }}
+        </p>
+      </div>
+      <div class="col-md-12">
+        <p><strong>Endereço:</strong> {{ assistida.endereco }}</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PERFIL DA SITUAÇÃO DE VIOLÊNCIA -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-rosachoque text-white">
+    <h5 class="mb-0">PERFIL DA SITUAÇÃO DE VIOLÊNCIA</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <strong>Tipos de Violência Sofrida:</strong><br />
+        {% if assistida.violencia_fisica %}<span class="badge bg-danger"
+          >Física</span
+        >{% endif %} {% if assistida.violencia_psicologica %}<span
+          class="badge bg-danger"
+          >Psicológica</span
+        >{% endif %} {% if assistida.violencia_sexual %}<span
+          class="badge bg-danger"
+          >Sexual</span
+        >{% endif %} {% if assistida.violencia_patrimonial %}<span
+          class="badge bg-danger"
+          >Patrimonial</span
+        >{% endif %} {% if assistida.violencia_moral %}<span
+          class="badge bg-danger"
+          >Moral</span
+        >{% endif %} {% if assistida.violencia_virtual %}<span
+          class="badge bg-danger"
+          >Virtual / Stalking</span
+        >{% endif %}
+      </div>
+      <div class="col-md-4">
+        <p>
+          <strong>Agressor:</strong> {{ assistida.get_tipo_agressor_display}}
+          {%if assistida.qual_agressor_outro %}
+          ({{assistida.qual_agressor_outro}}) {% endif %}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <strong>Risco Imediato:</strong>
+          {{assistida.get_risco_imediato_display }}
+        </p>
+      </div>
+      <div class="col-md-4">
+        <p>
+          <strong>Medida Protetiva:</strong>
+          {{assistida.get_medida_protetiva_display }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ESCOPO DO ATENDIMENTO REMOTO -->
+<div class="card shadow-sm mb-4">
+  <div class="card-header bg-rosachoque text-white">
+    <h5 class="mb-0">ESCOPO DO ATENDIMENTO</h5>
+  </div>
+  <div class="card-body">
+    <div class="row">
+      <div class="col-md-12 mb-3">
+        <strong>Suporte Inicial Desejado:</strong><br />
+        {% if assistida.apoio_psicologico %}<span
+          class="badge"
+          style="background-color: #eebbc9; color: #4a2330"
+          >Apoio Psicológico</span
+        >{% endif %} {% if assistida.orientacao_juridica %}<span
+          class="badge"
+          style="background-color: #eebbc9; color: #4a2330"
+          >Orientação Jurídica</span
+        >{% endif %} {% if assistida.assistencia_social %}<span
+          class="badge"
+          style="background-color: #eebbc9; color: #4a2330"
+          >Assistência Social</span
+        >{% endif %}
+      </div>
+      <div class="col-md-12">
+        <p>
+          <strong>Local seguro para videochamada?</strong>
+          {{assistida.get_local_seguro_display }}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- HISTÓRICO DE EVOLUÇÃO (ATENDIMENTOS) -->
+<div class="card shadow-sm mb-4">
+  <div
+    class="card-header bg-rosachoque text-white d-flex justify-content-between align-items-center"
+  >
+    <h5 class="mb-0">HISTÓRICO DE EVOLUÇÃO E ATENDIMENTOS</h5>
+    <a
+      href="{% url 'novo_atendimento' assistida.id %}"
+      class="btn btn-sm btn-outline-light"
+      >+ Novo Atendimento</a
+    >
+  </div>
+  <div class="card-body p-0">
+    <table class="table table-striped mb-0">
+      <thead>
+        <tr>
+          <th>Data / Hora</th>
+          <th>Profissional / Modalidade</th>
+          <th>Relato / Intervenção</th>
+          <th>Próximo Passo</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for evo in evolucoes %}
+        <tr>
+          <td>{{ evo.data_atendimento|date:"d/m/Y H:i" }}</td>
+          <td>
+            {{ evo.responsavel_tecnico }}<br /><small class="text-muted"
+              >{{ evo.get_formato_predominante_display }}</small
+            >
+          </td>
+          <td>{{ evo.relato }}</td>
+          <td>{{ evo.proximo_passo }}</td>
+          <td>
+            <!-- Lógica das Cores de Status -->
+            {% if evo.status_atual == 'ativo' %}
+            <span class="badge bg-rosachoque"
+              >{{ evo.get_status_atual_display }}</span
+            >
+            {% elif evo.status_atual == 'suspenso' %}
+            <span class="badge bg-warning text-dark"
+              >{{ evo.get_status_atual_display }}</span
+            >
+            {% elif evo.status_atual == 'alta' %}
+            <span class="badge" style="background-color: #1a4a2e; color: white"
+              >{{ evo.get_status_atual_display }}</span
+            >
+            {% else %}
+            <span class="badge bg-secondary"
+              >{{ evo.get_status_atual_display }}</span
+            >
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted p-3">
+            Nenhuma evolução registrada para esta assistida.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'atendimentos/base.html' %} {% block title %}Novo Atendimento - Grupo
+Rosa Choque{% endblock %} {% block content %}
+<div class="mt-4 mb-4">
+  <a
+    href="{% url 'ver_ficha' assistida.id %}"
+    class="btn btn-outline-secondary mb-3"
+    >&larr; Voltar</a
+  >
+  <h2 class="text-rosachoque">Registrar Evolução / Atendimento</h2>
+  <p class="text-muted">
+    Assistida: <strong>{{ assistida.nome_completo }}</strong> (Prontuário Nº
+    {{assistida.id }})
+  </p>
+</div>
+
+<div class="card shadow-sm mb-5">
+  <div class="card-header bg-rosachoque text-white">
+    <h5 class="mb-0">Dados do Atendimento Realizado</h5>
+  </div>
+  <div class="card-body">
+    <form method="POST">
+      {% csrf_token %}
+
+      <div class="row">
+        {% for field in form %}
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold text-dark">{{ field.label }}</label>
+          {{ field }} {% if field.help_text %}
+          <small class="text-muted">{{ field.help_text }}</small>
+          {% endif %} {% for error in field.errors %}
+          <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <hr class="mt-4 mb-4" />
+
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-rosachoque btn-lg fw-bold">
+          Salvar Atendimento
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

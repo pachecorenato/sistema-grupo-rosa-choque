@@ -1,0 +1,81 @@
+{% extends 'atendimentos/base.html' %} {% block title %}Cadastro de Atendidas -
+Grupo Rosa Choque{% endblock %} {% block content %}
+<div class="d-flex justify-content-between align-items-center mt-4 mb-4">
+  <h2 class="text-rosachoque">Cadastro de Atendidas</h2>
+  <a href="{% url 'nova_assistida' %}" class="btn btn-outline-rosachoque"
+    >+ Nova Atendida</a
+  >
+</div>
+<!-- Barra de Busca Segura -->
+<form method="GET" class="row g-3 mb-4">
+  <div class="col-md-9">
+    <input
+      type="text"
+      name="q"
+      class="form-control"
+      placeholder="Digite o Nome ou CPF da assistida para buscar..."
+      value="{{ query }}"
+    />
+  </div>
+  <div class="col-md-3">
+    <button type="submit" class="btn btn-rosachoque w-100">
+      Pesquisar Prontuário
+    </button>
+  </div>
+</form>
+<div class="card shadow-sm">
+  <div class="card-body">
+    <table class="table table-striped table-hover">
+      <thead>
+        <tr>
+          <th>Nº Prontuário</th>
+          <th>Nome Completo</th>
+          <th>Telefone</th>
+          <th>Data de Cadastro</th>
+          <th>Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Aqui o Django vai repetir essa linha para cada assistida no banco -->
+        {% for assistida in assistidas %}
+        <tr>
+          <td><strong>{{ assistida.id }}</strong></td>
+          <td>{{ assistida.nome_completo }}</td>
+          <td>{{ assistida.telefone }}</td>
+          <td>{{ assistida.data_cadastro|date:"d/m/Y" }}</td>
+          <td>
+            <a
+              href="{% url 'ver_ficha' assistida.id %}"
+              class="btn btn-sm btn-rosachoque"
+              >Ver Ficha</a
+            >
+
+            <!-- Botão de Excluir: Só aparece se a usuária for Coordenadora (Staff) -->
+            {% if user.is_staff %}
+            <form
+              method="POST"
+              action="{% url 'excluir_assistida' assistida.id %}"
+              class="d-inline"
+              onsubmit="return confirm('ATENÇÃO: Tem certeza que deseja excluir o prontuário de {{ assistida.nome_completo }}?\n\nIsso apagará permanentemente TODO o histórico de atendimentos desta pessoa e não pode ser desfeito.');"
+            >
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger ms-1">
+                Excluir
+              </button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        <!-- Se o banco estiver vazio, mostra essa mensagem: -->
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center text-muted">
+            Nenhuma atendida cadastrada ainda.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

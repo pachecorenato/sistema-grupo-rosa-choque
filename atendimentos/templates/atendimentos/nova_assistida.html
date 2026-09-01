@@ -1,0 +1,82 @@
+{% extends 'atendimentos/base.html' %} {% block title %}{% if assistida %}Editar
+Prontuário{% else %}Nova Atendida{% endif %} - Grupo Rosa Choque{% endblock %}
+{% block content %}
+
+<div class="mt-4 mb-4">
+  <a
+    href="{% if assistida %}{% url 'ver_ficha' assistida.id %}{% else %}{% url 'lista_assistidas' %}{% endif %}"
+    class="btn btn-outline-secondary mb-3"
+    >&larr; Voltar</a
+  >
+
+  <h2 class="text-rosachoque">
+    {% if assistida %}Editar Prontuário Nº {{ assistida.id }}{% else %}Cadastrar
+    Nova Atendida{% endif %}
+  </h2>
+</div>
+
+<div class="card shadow-sm mb-5">
+  <div class="card-header bg-rosachoque text-white">
+    <h5 class="mb-0">Formulário de Cadastro e Triagem</h5>
+  </div>
+  <div class="card-body">
+    <!-- O 'method="POST"' é o que avisa o navegador para enviar os dados com segurança -->
+    <form method="POST">
+      {% csrf_token %}
+      <!-- Chave de segurança obrigatória do Django -->
+
+      <div class="row">
+        <!-- Título inicial -->
+        <div class="col-12 mb-3">
+          <h5 class="text-rosachoque border-bottom pb-2">
+            DADOS IDENTIFICADORES
+          </h5>
+        </div>
+
+        {% for field in form %}
+
+        <!-- Intercepta o loop para criar o título de Violência -->
+        {% if field.name == 'violencia_fisica' %}
+        <div class="col-12 mt-4 mb-2">
+          <h5 class="text-rosachoque border-bottom pb-2">
+            PERFIL DA SITUAÇÃO DE VIOLÊNCIA
+          </h5>
+          <p class="fw-bold mb-3 text-dark">
+            Tipo de Violência Sofrida (Marque todas as opções aplicáveis):
+          </p>
+        </div>
+        {% endif %}
+
+        <!-- Intercepta o loop para criar o título de Atendimento -->
+        {% if field.name == 'apoio_psicologico' %}
+        <div class="col-12 mt-4 mb-2">
+          <h5 class="text-rosachoque border-bottom pb-2">
+            ESCOPO DO ATENDIMENTO REMOTO
+          </h5>
+          <p class="fw-bold mb-3 text-dark">Suporte Inicial Desejado:</p>
+        </div>
+        {% endif %}
+
+        <div class="col-md-6 mb-3">
+          <label class="form-label fw-bold text-dark">{{ field.label }}</label>
+          {{ field }} {% if field.help_text %}
+          <small class="text-muted">{{ field.help_text }}</small>
+          {% endif %} {% for error in field.errors %}
+          <div class="text-danger small">{{ error }}</div>
+          {% endfor %}
+        </div>
+        {% endfor %}
+      </div>
+
+      <hr class="mt-4 mb-4" />
+
+      <div class="d-flex justify-content-end">
+        <button type="submit" class="btn btn-rosachoque btn-lg fw-bold">
+          {% if assistida %}Salvar Alterações{% else %}Finalizar
+          Cadastro{%endif%}
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}

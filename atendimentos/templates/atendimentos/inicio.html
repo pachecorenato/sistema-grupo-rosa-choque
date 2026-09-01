@@ -1,0 +1,42 @@
+{% extends 'atendimentos/base.html' %} {% block title %}Início - Grupo Rosa
+Choque{% endblock %} {% block content %}
+<div class="p-5 mb-4 bg-light rounded-3 shadow-sm mt-4 border">
+  <div class="container-fluid py-3">
+    <h1 class="display-5 fw-bold text-rosachoque">Grupo Rosa Choque</h1>
+    <p class="col-md-8 fs-4 text-secondary">
+      Sistema de gestão de prontuários, triagem e acompanhamento de pessoas
+      atendidas.
+    </p>
+    <hr class="my-4" />
+    <p>
+      Total de prontuários sob proteção no sistema:
+      <strong>{{ total_assistidas }}</strong>
+    </p>
+
+    <div class="mt-4">
+      <a
+        href="{% url 'nova_assistida' %}"
+        class="btn btn-rosachoque btn-lg me-2 fw-bold"
+        >+ Nova Atendida</a
+      >
+      <a
+        href="{% url 'lista_assistidas' %}"
+        class="btn btn-outline-rosachoque btn-lg fw-bold"
+        >Buscar Prontuários</a
+      >
+    </div>
+    <hr class="my-4" />
+    <div class="d-flex justify-content-end">
+      <form method="post" action="{% url 'logout' %}">
+        {% csrf_token %}
+        <button
+          type="submit"
+          class="btn btn-outline-danger text-decoration-none fw-bold"
+        >
+          Sair do Sistema
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Acesso Restrito - Sistema Rosa Choque</title>
+    <!-- Carrega o Bootstrap direto para essa tela -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <style>
+      /* Trazemos apenas as cores da ONG para cá */
+      body {
+        background-color: #f4f6f9; /* Fundo cinza bem clarinho e elegante */
+      }
+      .bg-rosachoque {
+        background-color: #e6005c !important;
+      }
+      .text-rosachoque {
+        color: #e6005c !important;
+      }
+      .btn-rosachoque {
+        background-color: #e6005c;
+        color: white;
+        border: none;
+      }
+      .btn-rosachoque:hover {
+        background-color: #cc0052;
+        color: white;
+      }
+    </style>
+  </head>
+  <body class="d-flex align-items-center justify-content-center vh-100">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-md-5 col-lg-4">
+          <div class="card shadow-lg border-0 rounded-3">
+            <div
+              class="card-header bg-rosachoque text-white text-center py-4 rounded-top-3"
+            >
+              <h4 class="mb-0 fw-bold">Grupo Rosa Choque</h4>
+              <small>Acesso Restrito</small>
+            </div>
+
+            <div class="card-body p-4 p-md-5">
+              {% if form.errors %}
+              <div class="alert alert-danger" role="alert">
+                Usuário ou senha incorretos.
+              </div>
+              {% endif %}
+
+              <form method="POST">
+                {% csrf_token %}
+                <div class="mb-3">
+                  <label class="form-label fw-bold text-secondary"
+                    >Usuário</label
+                  >
+                  <input
+                    type="text"
+                    name="username"
+                    class="form-control form-control-lg"
+                    required
+                    autofocus
+                  />
+                </div>
+                <div class="mb-4">
+                  <label class="form-label fw-bold text-secondary">Senha</label>
+                  <input
+                    type="password"
+                    name="password"
+                    class="form-control form-control-lg"
+                    required
+                  />
+                </div>
+                <button
+                  type="submit"
+                  class="btn btn-rosachoque btn-lg w-100 fw-bold mt-2"
+                >
+                  Entrar no Sistema
+                </button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
