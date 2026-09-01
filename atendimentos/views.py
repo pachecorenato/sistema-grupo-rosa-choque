@@ -13,16 +13,16 @@ def pagina_inicial(request):
 
 @login_required
 def lista_assistidas(request):
-    query = request.GET.get('q', '') # Pega o que a pessoa digitou na busca
+    query = request.GET.get('q', '') # Pega o termo digitado na busca
     
     if query:
-        # Se digitou algo, filtra por nome ou CPF
+        # Se a usuária digitou algo na busca, faz a filtragem por nome ou CPF
         assistidas = Assistida.objects.filter(nome_completo__icontains=query) | Assistida.objects.filter(cpf__icontains=query)
     else:
-        # Se não digitou nada, traz todas as assistidas ordenadas
-        assistidas = Assistida.objects.all().order_by('-data_cadastro')
+        # Se ninguém buscou nada, a lista fica vazia por padrão (sigilo e privacidade)
+        assistidas = []
         
-    return render(request, 'atendimentos/lista_assistidas.html', {'assistidas': assistidas, 'query': query})
+    return render(request, 'atendimentos/lista_assistidas.html', {'assistidas': assistidas, 'query': query})        
 
 @login_required
 def ver_ficha(request, id):
