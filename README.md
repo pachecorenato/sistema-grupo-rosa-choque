@@ -28,4 +28,35 @@ Siga os passos abaixo para rodar o sistema na sua máquina:
 
 1. Clone este repositório:
    ```bash
-   git clone [https://github.com/SEU_USUARIO/sistema-rosa-choque.git](https://github.com/SEU_USUARIO/sistema-rosa-choque.git)
+   git clone [https://github.com/SEU_USUARIO/sistema-rosa-choque.git]
+
+2. Entre na pasta do projeto:
+   ```bash
+   cd sistema-rosa-choque
+
+3. Instale as dependências:
+   ```bash
+   pip install -r requirements.txt
+
+4. Realize as migrações do banco de dados:
+   ```bash
+   python manage.py migrate
+
+5. Crie um superusuário para acessar o sistema pela primeira vez:
+   ```bash
+   python manage.py createsuperuser
+
+6. Inicie o servidor local:
+   ```bash
+   python manage.py runserver
+
+7. Acesse no navegador: http://127.0.0.1:8000
+
+
+**Lembrete:** No código acima, lá no Passo 1 da execução, lembre-se de trocar `SEU_USUARIO` pelo seu nome de usuário real do GitHub.
+
+
+
+
+ 
+  
