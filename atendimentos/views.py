@@ -19,8 +19,10 @@ def lista_assistidas(request):
         # Se digitou algo, filtra por nome ou CPF
         assistidas = Assistida.objects.filter(nome_completo__icontains=query) | Assistida.objects.filter(cpf__icontains=query)
     else:
-        # Se for a Página Inicial pura e a pesssoa não fez busca, começa vazia por segurança e privacidade!
-        return render(request, 'atendimentos/lista_assistidas.html', {'assistidas': assistidas, 'query': query})
+        # Se não digitou nada, traz todas as assistidas ordenadas
+        assistidas = Assistida.objects.all().order_by('-data_cadastro')
+        
+    return render(request, 'atendimentos/lista_assistidas.html', {'assistidas': assistidas, 'query': query})
 
 @login_required
 def ver_ficha(request, id):
